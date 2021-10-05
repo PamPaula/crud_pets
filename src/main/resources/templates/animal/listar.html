@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymealef.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout.html}">
+<head>
+<meta charset="UTF-8">
+</head>
+<div layout:fragment="content">
+	<div class="alert alert-primary" th:if="${#lists.isEmpty(lista)}">
+		Nenhum pet está cadastrado em nossa biblioteca.</div>
+	<div class="alert alert-primary" th:if="${mensagem != null}"
+		th:text="${mensagem}"></div>
+	<div th:if="${not #lists.isEmpty(lista)}">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nome</th>
+					<th>Tipo</th>
+					<th>Data de Nascimento</th>
+					<th>Opções</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="animal : ${lista}">
+					<td th:text="${animal.id}"></td>
+					<td th:text="${animal.nome}" width="50%"></td>
+					<td th:text="${animal.tipo}"></td>
+					<td th:text="${#dates.format(animal.dataNascimento, 'dd/MM/yyyy')}"></td>
+					<td><a class="btn btn-primary btn-sm"
+						th:href="@{/animal/editar(id=${animal.id})}">Editar</a> <a
+						class="btn btn-primary btn-sm"
+						th:href="@{/animal/excluir(id=${animal.id})}" onclick="return confirm('Você realmente deseja exluir esse pet?')">Excluir</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+</html>

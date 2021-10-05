@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymealef.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout.html}">
+<head>
+<meta charset="UTF-8">
+</head>
+<div layout:fragment="content">
+	<div class="alert alert-primary" th:if="${mensagem != null}"
+		th:text="${mensagem}"></div>
+	<div class="card">
+		<div class="card-header">
+			<p class="text-primary">Cadastre o veterinário do pet</p>
+		</div>
+		<div class="card-body">
+			<form method="POST" th:object="${veterinario}"
+				th:action="@{/veterinario/editar}">
+				<input type="hidden" th:field="*{id}">
+				<div class="form-group mb-3">
+					<label for="nome">Nome do veterinario:</label> <input
+						class="form-control" type="text" th:field="*{nome}" required></input>
+					<div class="text-danger" th:if="${#fields.hasErrors('nome')}"
+						th:errors="*{nome}"></div>
+					<br> <label for="endereco">Endereço:</label> <input
+						class="form-control" type="text" th:field="*{endereco}" required></input>
+					<div class="text-danger" th:if="${#fields.hasErrors('endereco')}"
+						th:errors="*{endereco}"></div>
+					<br> <label for="tel">Telefone:</label> <input
+						class="form-control" type="text" th:field="*{tel}" maxlength="11"
+						required></input>
+					<div class="text-danger" th:if="${#fields.hasErrors('tel')}"
+						th:errors="*{tel}"></div>
+					<br> <label for="nome">Pet:</label> <select
+						class="form-select" th:field="*{animal}">
+						<option th:each="animal: ${listaAnimais}" th:value="${animal.id}"
+							th:text="${animal.nome}" />
+					</select> <br> <label for="dataCadastro">Data do Cadastro:</label> <input
+						class="form-control" type="text" id="_dataCadastro"></input> <input
+						type="hidden" th:field="*{dataCadastro}"></input>
+					<div class="text-danger"
+						th:if="${#fields.hasErrors('dataCadastro')}"
+						th:errors="*{dataCadastro}"></div>
+				</div>
+				<button type="submit" class="btn btn-primary">Salvar
+					Veterinário</button>
+			</form>
+		</div>
+	</div>
+</div>
+<div layout:fragment="scripts">
+	<script>
+	$(function() {
+	$("#_dataCadastro").datepicker({
+		dateFormat: "dd/mm/yy",
+		altFormat: "yy-mm-dd",
+		altField: "#dataCadastro"
+	});
+	});
+</script>
+</div>
+</html>
